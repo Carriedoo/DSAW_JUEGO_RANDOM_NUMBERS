@@ -23,7 +23,7 @@
     </main>
     <article>
       <section class="left">
-        <input type="number" placeholder="?" class="guess" name="guess"/>
+        <input type="number" class="guess" name="guess"/>
         <button class="btn" onclick="provar()">Prova!</button>
       </section>
       <section class="right">
@@ -38,28 +38,82 @@
     <script>
 
       // DEFINIR LOS OBJETOS DEL HTML
-      let txbNameObj = document.getElementById("form-name");
+      let txbNameObj = document.querySelector(".player");
       let spanNameObj = document.querySelector(".player-name");
+      let spanDateObj = document.querySelector(".player-data");
+      let spanScoreObj = document.querySelector(".player-score");
+      let spanHighscore = document.querySelector(".player-highscore");
+      let pMessageObj = document.querySelector(".message");
+      let divNumberObj = document.querySelector(".number");
       
-      let numSecret
+      let numSecret;
+
+      // INPUT NUMEROS
+      let numeros = document.querySelector(".guess");
+
+      // FECHA
+      const date = new Date();
+      // PONER FECHA DEL DIA
+      spanDateObj.textContent = date.getDate() + "/" + (date.getMonth() + 1 )+ "/" + date.getFullYear();
+      // PONER JUGADAS
+      spanScoreObj.textContent = "10";
+
+      //CSS
+      let fonsCss = document.querySelector("body");
+
 
       function jugar() {
+        divNumberObj.textContent = "?";
+        numeros.value = "";
+        numSecret = Math.floor(Math.random() * (20 - 1 + 1) + 1);
+        fonsCss.style.backgroundColor = "#222";
+
+        spanScoreObj.textContent = "10";
+
+        console.log(numSecret);
+
         console.log("Jugar");
 
-        console.log(txbNameObj.value);
-
-        if(txbNameObj.value == ""){
+        if(txbNameObj.value == "") {
           alert("Has de posar un nom al jugador!");
         } else {
           console.log("Jugant");
           // PONER NOMBRE JUGADOR
           spanNameObj.textContent = txbNameObj.value;
-          // GENERAR UN NUMERO ALEATORIO
+          // CAMBIAR MENSAJE DE PISTAS
+          pMessageObj.textContent = "Comencem la partida";
         }
       }
 
       function provar() {
+        let currentScore = Number(spanScoreObj.textContent);
+        currentScore--; 
+        spanScoreObj.textContent = currentScore;
+
+        if (currentScore <= 0) {  
+          pMessageObj.textContent = "Has perdut!!";
+          fonsCss.style.backgroundColor = "red";
+        }
+
         console.log("Provar");
+
+        if (Number(numeros.value) > numSecret) {
+          console.log("num>nums");  
+          pMessageObj.textContent = "El número secret és més petit";
+          } else if (Number(numeros.value) < numSecret) {
+            console.log("num<nums");
+            pMessageObj.textContent = "El número secret és més gran";
+          } else if (Number(numeros.value) === numSecret) {
+            console.log("num==nums");
+            pMessageObj.textContent = "L’has encertat!!";
+            divNumberObj.textContent = numSecret;
+            fonsCss.style.backgroundColor = "green";
+            let highScore = Number(spanHighscore.textContent);
+            highScore++; 
+            spanHighscore.textContent = highScore;
+          } else {
+            alert("El número introduït no és correcte.");
+          }
       }
     </script>
   </body>
