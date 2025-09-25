@@ -12,7 +12,7 @@
     <header>
       <input id="form-name" type="text" class="player" placeholder="Posa el nom del jugador">
       <p>Busca un número entre 1 i 20</p>
-      <button class="btn" onclick="jugar()">Jugar!</button>
+      <button class="btn-jugar" onclick="jugar()">Jugar!</button>
     </header>
     <main>
       <h1>Busca el número!</h1>
@@ -31,6 +31,7 @@
         <p class="label-player">⭐ Nom: <span class="player-name"></span></p>
         <p class="label-score">💯 Jugades: <span class="player-score">0</span></p>
         <p class="label-highscore"> 🥇 Guanyades: <span class="player-highscore">0</span>
+        <p class="label-llista"> 📢 Llista numeros: <span class="player-llista"></span>
         </p>
       </section>
     </article>
@@ -43,8 +44,10 @@
       let spanDateObj = document.querySelector(".player-data");
       let spanScoreObj = document.querySelector(".player-score");
       let spanHighscore = document.querySelector(".player-highscore");
+      let spanLlistaObj = document.querySelector(".player-llista");
       let pMessageObj = document.querySelector(".message");
       let divNumberObj = document.querySelector(".number");
+      let btnJugar = document.querySelector(".btn-jugar");
       
       let numSecret;
 
@@ -61,16 +64,18 @@
       //CSS
       let fonsCss = document.querySelector("body");
 
+      let llistaNumeros = [];
+
 
       function jugar() {
+        if (txbNameObj.value != "") {
+          btnJugar.disabled = true;
+        }
         divNumberObj.textContent = "?";
         numeros.value = "";
-        numSecret = Math.floor(Math.random() * (20 - 1 + 1) + 1);
         fonsCss.style.backgroundColor = "#222";
 
         spanScoreObj.textContent = "10";
-
-        console.log(numSecret);
 
         console.log("Jugar");
 
@@ -78,6 +83,12 @@
           alert("Has de posar un nom al jugador!");
         } else {
           console.log("Jugant");
+          let valorMax = prompt("Escull el número maxim que vulguis");
+          if (valorMax === null) {
+            valorMax = 20;
+          }
+          numSecret = Math.floor(Math.random() * (valorMax - 1 + 1) + 1);
+          console.log(numSecret);
           // PONER NOMBRE JUGADOR
           spanNameObj.textContent = txbNameObj.value;
           // CAMBIAR MENSAJE DE PISTAS
@@ -93,27 +104,34 @@
         if (currentScore <= 0) {  
           pMessageObj.textContent = "Has perdut!!";
           fonsCss.style.backgroundColor = "red";
+          btnJugar.disabled = false;
+        }
+
+        if (numeros.value.length === 0) {
+          alert("El número introduït no és correcte.");
+          return;
         }
 
         console.log("Provar");
 
+        llistaNumeros.push(numeros.value);
+        spanLlistaObj.textContent = llistaNumeros.join(", ");
+
         if (Number(numeros.value) > numSecret) {
-          console.log("num>nums");  
           pMessageObj.textContent = "El número secret és més petit";
           } else if (Number(numeros.value) < numSecret) {
-            console.log("num<nums");
-            pMessageObj.textContent = "El número secret és més gran";
+              pMessageObj.textContent = "El número secret és més gran";
           } else if (Number(numeros.value) === numSecret) {
-            console.log("num==nums");
-            pMessageObj.textContent = "L’has encertat!!";
-            divNumberObj.textContent = numSecret;
-            fonsCss.style.backgroundColor = "green";
-            let highScore = Number(spanHighscore.textContent);
-            highScore++; 
-            spanHighscore.textContent = highScore;
-          } else {
-            alert("El número introduït no és correcte.");
+              pMessageObj.textContent = "L’has encertat!!";
+              divNumberObj.textContent = numSecret;
+              fonsCss.style.backgroundColor = "green";
+              btnJugar.disabled = false;
+              let highScore = Number(spanHighscore.textContent);
+              highScore++; 
+              spanHighscore.textContent = highScore;
           }
+
+          
       }
     </script>
   </body>

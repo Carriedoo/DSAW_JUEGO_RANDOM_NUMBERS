@@ -84,6 +84,16 @@ article {
   width: 200px;
 }
 
+.btn-jugar {
+  border: 6px solid black;
+  background-color: #eee;
+  color: #222;
+  font-size: 0.8rem;
+  font-family: inherit;
+  padding: 0.8rem 1.5rem;
+  cursor: pointer;
+}
+
 .btn {
   border: 6px solid black;
   background-color: #eee;
@@ -98,7 +108,11 @@ article {
   background-color: #ccc;
 }
 
+.btn-jugar:hover {
+  background-color: #ccc;
+}
 
-.label-score, .label-player, .label-data {
+
+.label-score, .label-player, .label-data, label.llista{
   margin-bottom: 0.5rem;
 }
