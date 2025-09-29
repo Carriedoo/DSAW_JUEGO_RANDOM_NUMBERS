@@ -48,6 +48,8 @@
       let pMessageObj = document.querySelector(".message");
       let divNumberObj = document.querySelector(".number");
       let btnJugar = document.querySelector(".btn-jugar");
+      let btn = document.querySelector(".btn");
+      btn.disabled = true;
       
       let numSecret;
 
@@ -66,14 +68,16 @@
 
       let llistaNumeros = [];
 
-
       function jugar() {
         if (txbNameObj.value != "") {
           btnJugar.disabled = true;
         }
         divNumberObj.textContent = "?";
+        spanLlistaObj.textContent = "";
+        llistaNumeros = [];
         numeros.value = "";
         fonsCss.style.backgroundColor = "#222";
+        btn.disabled = false;
 
         spanScoreObj.textContent = "10";
 
@@ -94,17 +98,28 @@
           // CAMBIAR MENSAJE DE PISTAS
           pMessageObj.textContent = "Comencem la partida";
         }
+
+        // FUNCION PARA DARLE A PROVAR (PRESIONANDO LA TECLA ENTER)
+          // input numeros
+          numeros.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+              provar();
+            }
+          });
       }
 
       function provar() {
-        let currentScore = Number(spanScoreObj.textContent);
+        
+        currentScore = Number(spanScoreObj.textContent);
         currentScore--; 
         spanScoreObj.textContent = currentScore;
 
         if (currentScore <= 0) {  
           pMessageObj.textContent = "Has perdut!!";
           fonsCss.style.backgroundColor = "red";
+          divNumberObj.textContent = numSecret;
           btnJugar.disabled = false;
+          btn.disabled = true;
         }
 
         if (numeros.value.length === 0) {
@@ -131,7 +146,8 @@
               spanHighscore.textContent = highScore;
           }
 
-          
+          numeros.value = "";
+          numeros.focus();
       }
     </script>
   </body>
